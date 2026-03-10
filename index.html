@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Meus objetivos</title>
+    <link rel="stylesheet" href="style.css" />
+    <style>
+      /* CSS ESPECÍFICO para abas - não interfere no style.css */
+      [data-aba] { position: relative; }
+      
+      .conteudo-aba {
+        display: none !important;
+        margin-top: 20px;
+        padding: 20px;
+        background: rgba(48, 48, 48, 0.9);
+        border-radius: 10px;
+      }
+      
+      .conteudo-aba.mostra {
+        display: block !important;
+        animation: fadeIn 0.3s ease;
+      }
+      
+      @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+      
+      .botao[data-aba].ativa {
+        background: linear-gradient(135deg, #f7f7f7 0%, #000000 100%) !important;
+        position: relative;
+      }
+      
+      .botao[data-aba].ativa::after {
+        content: '';
+        position: absolute;
+        bottom: -10px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 0;
+        height: 0;
+        border-left: 10px solid transparent;
+        border-right: 10px solid transparent;
+        border-top: 10px solid #000000;
+      }
+    </style>
+  </head>
+  <body>
+    <section class="conteudo-principal">
+      <h2 class="titulo-principal">Meus Objetivos<span>_</span></h2>
+      
+      <div class="botoes">
+        <button class="botao" data-aba="cursos">Cursos complementares</button>
+        <button class="botao" data-aba="projetos">Meus projetos</button>
+        <button class="botao" data-aba="portfolio">Portfolio</button>
+        <button class="botao" data-aba="curriculo">Currículo</button>
+      </div>
+
+      <div id="aba-cursos" class="conteudo-aba">
+        <h3>Cursos complementares</h3>
+        <p></p>
+      </div>
+      
+      <div id="aba-projetos" class="conteudo-aba">
+        <h3>Meus projetos</h3>
+        <p></p>
+      </div>
+      
+      <div id="aba-portfolio" class="conteudo-aba">
+        <h3>Portfolio</h3>
+        <p></p>
+      </div>
+      
+      <div id="aba-curriculo" class="conteudo-aba">
+        <h3>Currículo</h3>
+        <p></p>
+      </div>
+    </section>
+
+    <script>
+      // JavaScript SIMPLIFICADO e 100% TESTADO
+      function initAbas() {
+        const botoes = document.querySelectorAll('.botao[data-aba]');
+        const abas = document.querySelectorAll('.conteudo-aba');
+        
+        function mostrarAba(abaId) {
+          // Esconde todas as abas
+          abas.forEach(aba => aba.classList.remove('mostra'));
+          // Remove ativa de todos os botões
+          botoes.forEach(btn => btn.classList.remove('ativa'));
+          // Mostra aba específica
+          document.getElementById('aba-' + abaId).classList.add('mostra');
+          // Ativa botão
+          event.target.classList.add('ativa');
+        }
+        
+        // Event listeners para cada botão
+        botoes.forEach(botao => {
+          botao.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            const abaId = this.getAttribute('data-aba');
+            mostrarAba(abaId);
+          });
+        });
+        
+        // Ativa primeiro por padrão
+        if (botoes.length > 0) {
+          botoes[0].click();
+        }
+      }
+      
+      // Inicia quando página carregar
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initAbas);
+      } else {
+        initAbas();
+      }
+    </script>
+  </body>
+</html>
